@@ -12,7 +12,7 @@ const obterConexao = () => {
 const listar = (callback) => {
     const conexao = obterConexao();
     conexao.query(
-        'SELECT * FROM tb_tarefa',
+        'SELECT * FROM filme',
         (erro, resultado) => {
             callback(resultado)
         }
@@ -29,11 +29,11 @@ const total = (callback) => {
     );
 }
 
-const inserir = (tarefa, callback) => {
+const inserir = (filme, callback) => {
     const conexao = obterConexao();
     conexao.execute(
-        'INSERT INTO tb_tarefa (descricao, finalizada, valor) VALUES (?,?,?)',
-        [tarefa.descricao, tarefa.finalizada, tarefa.valor],
+        'INSERT INTO filme(titulo,origem_uf,sinopse,genero,data_lancamento) VALUES (?,?,?,?,?)',
+        [filme.titulo, filme.origem_uf, filme.sinopse, filme.genero, filme.data_lancamento],
         (erro, resultado) =>{
             callback(resultado);
         }

@@ -6,12 +6,13 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-const obterTarefas = (req, res) =>{
-    db.listar((tarefas)=>{
-        tarefas = tarefas.map((t)=>{
-            return {id: t.id, descricao: t.descricao, finalizada: t.finalizada === 1 ? true:false, valor: t.valor}
+const obterFilmes = (req, res) =>{
+    db.listar((filmes)=>{
+        filmes = filmes.map((f)=>{
+            return {id_filme: f.id_filme, titulo: f.titulo, data_lancamento: f.data_lancamento, origem_uf: f.origem_uf, sinopse: f.sinopse,
+            qualificacao: f.qualificacao, genero: f.genero, imagem: f.imagem}
         });
-        res.json({tarefas});
+        res.json({filmes});
     });
 }
 
@@ -29,30 +30,23 @@ app.get("/tarefas/total", (req, res) => {
 })
 
 //http://localhost:3000/tarefas (GET)
-app.get("/tarefas", (req, res) => {
-    obterTarefas(req, res);
+app.get("/filmes", (req, res) => {
+    obterFilmes(req, res);
     //res.json({tarefas});
 })
 
 //http://localhost:3000/tarefas (POST)
-app.post("/tarefas", (req, res) => {
+app.post("/filmes", (req, res) => {
     const t = req.body;
     db.inserir(t, (resultado) =>{
-        obterTarefas(req, res);
+        obterFilmes(req, res);
     });
-    /*
-    tarefas.push({id: id, descricao: t.descricao, finalizada: t.finalizada, valor: t.valor});
-    id++;
-    res.json({tarefas});*/
 });
 
 app.put("/tarefas", (req, res) => {
     db.atualizar(req.body, (resultado) =>{
         obterTarefas(req, res);
     });
-    /*const index = tarefas.findIndex(t => t.id === req.body.id);
-    tarefas[index] = {...req.body};
-    res.json({tarefas: tarefas});*/
 })
 
 app.delete("/tarefas", (req, res) => {
